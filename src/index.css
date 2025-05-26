@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.logo{
+  font-family: "Major Mono Display", serif;
+  color: rgb(31, 223, 85);
+}
