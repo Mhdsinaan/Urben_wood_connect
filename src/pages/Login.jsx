@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../api/api"; 
+import api from "../../api/api";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -46,38 +46,36 @@ const Login = () => {
         const user = resdata.data;
         const token = user.token;
         localStorage.setItem("token", token);
-        console.log(user.token);
-        
         localStorage.setItem("user", JSON.stringify(user));
-         
+
+        
+        window.dispatchEvent(new Event("storage"));
+
         setIsLoggedIn(true);
         setUserData(user);
         setErrorMessage(null);
+
+        toast.success("Login successful");
 
         if (user.role === "Admin") {
           navigate("/Admin");
         } else {
           navigate("/");
         }
-        console.log(response.data);
-        
-
-        toast.success("Login sucessfull");
-
-
       } else {
         setErrorMessage(response.message || "Login failed");
-        toast.error("Login Faild");
+        toast.error("Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      // setErrorMessage("Invalid username or password");
-       toast.error("Login Faild");
+      toast.error("Login failed");
     }
   };
 
   const handleLogout = () => {
-    localStorage.clear("user");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.dispatchEvent(new Event("storage")); // Optional: Notify others on logout
     setIsLoggedIn(false);
     setUserData(null);
   };
@@ -114,7 +112,9 @@ const Login = () => {
             value={detail.password}
             name="password"
           />
-          {errorMessage && <p className="text-red-500 text-xs mb-4">{errorMessage}</p>}
+          {errorMessage && (
+            <p className="text-red-500 text-xs mb-4">{errorMessage}</p>
+          )}
           <button className="w-full p-2 bg-blue-500 text-white rounded">
             Login
           </button>

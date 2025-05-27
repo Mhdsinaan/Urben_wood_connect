@@ -7,53 +7,105 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  
   // const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  if(user==null){
+    // toast.error("user not Loggin");
+  }
 
   useEffect(() => {
-    if (!user) {
-      toast.error("Please login");
-      // navigate("/login");
-    } else {
+    if (user) {
       getCartItems();
     }
-  }, [user]);
+  }, []);
 
   const getCartItems = async () => {
     try {
       const response = await api.get("/api/Cart");
-      setCart(response.data);
+      console.log("data",response)
+      setCart(response.data)
+      
+      
     } catch (error) {
       console.error("Failed to load cart items", error);
+      setCart([]);
     }
   };
 
   const addToCart = async (item) => {
+  if (!user) {
+    toast.error("Please login to add items to cart");
+    return;
+  }
+    console.log("Sending to API:", item);
+  try {
+    const response = await api.post("/api/Cart/add", {
+  ProductId: item.productID,     
+  Quantity: item.quantity 
+});
+
+
+  
+    
+
+    if (response.status === "200") {
+      setCart(response.data);
+     
+      toast.success(`${item.name} added to cart`);
+      getCartItems(); // Refresh cart
+    }
+  } catch (error) {
+    toast.error("Failed to add item to cart");
+    console.error(error);
+  }
+};
+
+
+  const removeFromCart = async (productId) => {
+     console.log("Sending to API:", productId);
+    
     try {
-      const response = await api.post("/api/Cart/add", item);
+      const response = await api.delete(`/api/Cart/${productId}`);
       if (response.status === 200) {
-        toast.success(`${item.name} added to cart`);
-        getCartItems(); // Refresh cart after adding
+       
+        toast.success("Item removed from cart");
+        getCartItems();
       }
     } catch (error) {
-      toast.error("Failed to add item to cart");
+      toast.error("Failed to remove item");
       console.error(error);
     }
   };
 
-  const removeFromCart = (id) => {
-    // Update this if you have delete API endpoint
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const updateCartQuantity = async (productID,quantity) => {
+    try {
+        const updatedQuantity = quantity + 1;
+      const response = await api.post(`/api/Cart/increment/${productID}`, {
+        quantity:updatedQuantity,
+      });
+      if (response.status === 200) {
+        getCartItems();
+      }
+    } catch (error) {
+      toast.error("Failed to update quantity");
+      console.error(error);
+    }
   };
-
-  const updateCartQuantity = (id, newQuantity) => {
-    // Update this if you have PUT/PATCH API
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+   const decreaseCartQuantity = async (productID,quantity) => {
+    try {
+        const decreas = quantity - 1;
+      const response = await api.post(`/api/Cart/decrease/${productID}`, {
+        quantity:decreas,
+      });
+      if (response.status === 200) {
+        getCartItems();
+      }
+    } catch (error) {
+      toast.error("Failed to update quantity");
+      console.error(error);
+    }
   };
 
   const clear = () => {
@@ -62,7 +114,7 @@ export function CartProvider({ children }) {
 
   const getCartTotalPrice = () => {
     return cart.reduce(
-      (total, item) => total + item.new_price * item.quantity,
+      (total, item) => total + item.NewPrice * item.quantity,
       0
     );
   };
@@ -74,8 +126,11 @@ export function CartProvider({ children }) {
         addToCart,
         removeFromCart,
         updateCartQuantity,
+        decreaseCartQuantity,
         clear,
         getCartTotalPrice,
+       
+        cartCount: cart.length,
       }}
     >
       {children}
@@ -86,3 +141,5 @@ export function CartProvider({ children }) {
 export function useCart() {
   return useContext(CartContext);
 }
+ // navigator("/login");
+      

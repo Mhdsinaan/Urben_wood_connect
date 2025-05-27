@@ -5,19 +5,12 @@ import "./index.css";
 import App from "./App";
 import { UsersProvider } from "./context/usersContext";
 
-
-
 createRoot(document.getElementById("root")).render(
-  
-    <UsersProvider>
-      <DataProvider>
-        
-        
-        <CartProvider>
-          <App />
-        </CartProvider>
-        
-      </DataProvider>
-    </UsersProvider>
- 
+  <UsersProvider>
+    <DataProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </DataProvider>
+  </UsersProvider>
 );

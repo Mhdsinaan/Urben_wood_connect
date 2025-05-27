@@ -4,26 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
 
 function Cart() {
-  const { cart, removeFromCart, clear, updateCartQuantity, getCartTotalPrice } = useCart();
+  const { cart, removeFromCart, clear, updateCartQuantity, decreaseCartQuantity, getCartTotalPrice } = useCart();
   const navigate = useNavigate();
+  console.log("mydata cart",cart);
+  
 
   const isAuthenticated = () => {
     return localStorage.getItem("user");
   };
 
- 
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/Login");
     }
-  }, []);
+  }, [navigate]);
 
   const totalPrice = getCartTotalPrice();
 
-  
   const handleCheckout = () => {
-    clear(); 
-    alert("Payment is successful"); 
+    clear();
+    alert("Payment is successful");
   };
 
   return (
@@ -35,16 +35,15 @@ function Cart() {
       ) : (
         <div className="grid grid-cols-1 gap-6">
           {cart.map((item) => (
-            <div key={item.id} className="flex items-center bg-white shadow-md rounded-lg overflow-hidden">
+            <div key={item.productId} className="flex items-center bg-white shadow-md rounded-lg overflow-hidden">
               <img src={item.image} alt={item.name} className="w-24 h-24 object-cover" />
               <div className="flex-1 p-4">
                 <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                <p className="text-gray-600">{`Price: ₹${item.new_price * item.quantity}`}</p>
+                <p className="text-gray-600">{`Price: ₹${item.NewPrice * item.quantity}`}</p>
 
-              
                 <div className="flex items-center mt-2">
                   <button
-                    onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
+                    onClick={() => decreaseCartQuantity(item.productId, item.quantity - 1, item.NewPrice)}
                     disabled={item.quantity <= 1}
                     className="px-2 py-1 bg-gray-300 rounded-md hover:bg-gray-400 disabled:bg-gray-200"
                   >
@@ -52,16 +51,15 @@ function Cart() {
                   </button>
                   <span className="px-4">{item.quantity}</span>
                   <button
-                    onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
-                    
+                    onClick={() => updateCartQuantity(item.productId, item.quantity + 1)}
                     className="px-2 py-1 bg-gray-300 rounded-md hover:bg-gray-400"
                   >
                     +
                   </button>
                 </div>
               </div>
-             
-              <button onClick={() => removeFromCart(item.id)} className="p-4 bg-red-500 text-white hover:bg-red-600 transition-all">
+
+              <button onClick={() => removeFromCart(item.productId)} className="p-4 bg-red-500 text-white hover:bg-red-600 transition-all">
                 <FaTrashAlt size={20} />
               </button>
             </div>
@@ -69,12 +67,11 @@ function Cart() {
         </div>
       )}
 
-      
       {cart.length > 0 && (
         <div className="mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800">Total: ₹{totalPrice}</h2>
           <button
-            onClick={handleCheckout} 
+            onClick={handleCheckout}
             className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-all"
           >
             Proceed to Checkout

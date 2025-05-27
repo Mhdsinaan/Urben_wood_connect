@@ -50,7 +50,6 @@ function App() {
     <>
       <RouterProvider router={router} />
 
-      {/* ✅ ToastContainer added globally */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

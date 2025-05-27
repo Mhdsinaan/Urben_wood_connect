@@ -13,11 +13,11 @@ export function UsersProvider({ children }) {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get("/api/User"); 
+        const response = await api.get( "/api/User/all-users"); 
         
         console.log(response.data);
         
-        setUser(response.data);
+        setUser(response);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Failed to fetch data");
