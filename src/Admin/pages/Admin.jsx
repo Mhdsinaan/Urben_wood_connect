@@ -64,9 +64,7 @@ function Admin() {
         </ul>
       </div>
 
-      <div className="ml-64 flex-1 p-6">
-        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-      </div>
+     
     </div>
   );
 }

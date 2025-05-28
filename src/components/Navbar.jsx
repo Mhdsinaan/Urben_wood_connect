@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaShoppingCart, FaUserPlus, FaBars, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaUserPlus, FaBars, FaTimes, FaHeart } from "react-icons/fa"; // ✅ Added FaHeart
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -71,6 +71,11 @@ function Navbar() {
         <div className="flex gap-5 items-center">
           <Link to="/Login" className="text-black hover:text-gray-600">
             <FaUserPlus size={26} />
+          </Link>
+
+          {/* ✅ Wishlist Icon */}
+          <Link to="/Wishlist" className="text-black hover:text-gray-600">
+            <FaHeart size={26} />
           </Link>
 
           <Link to="/Cart" className="relative text-black hover:text-gray-600">

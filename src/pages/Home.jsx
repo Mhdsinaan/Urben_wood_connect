@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
+    
       <div className="relative w-full h-[100vh]">
         <img
           className="w-full h-full object-cover"
           src="https://t4.ftcdn.net/jpg/07/66/68/91/360_F_766689190_V5DFvLBYkgS025qbSdjuV1jCrBro0Mzf.jpg"
           alt="Home"
         />
-        {/* Text Over Image */}
+        
         <div className="absolute top-1/2 left-10 transform -translate-y-1/2 text-left text-white">
           <p className="mt-4 text-xl max-w-md font-extralight">
             Discover our wide range of stylish and functional furniture that

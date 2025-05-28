@@ -39,7 +39,9 @@ function Cart() {
               <img src={item.image} alt={item.name} className="w-24 h-24 object-cover" />
               <div className="flex-1 p-4">
                 <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                <p className="text-gray-600">{`Price: ₹${item.NewPrice * item.quantity}`}</p>
+                <p className="text-gray-600">{`Price: ₹${item.price * item.quantity}`}</p>
+
+                                  
 
                 <div className="flex items-center mt-2">
                   <button

@@ -1,111 +1,103 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlus } from "react-icons/fa";
 
 function AdminProducts() {
   const { posts, loading } = useContext(DataContext);
-  const { id } = useParams();
+
   const deleteData = async (id) => {
     try {
-      const resp = await axios.delete(`http://localhost:3000/products/${id}`);
-      console.log("Product deleted successfully:", resp.data);
+      await axios.delete(`http://localhost:3000/products/${id}`);
       alert("Product deleted successfully");
       window.location.reload();
     } catch (error) {
-      
-      alert("An error  deleting the product.");
+      alert("An error occurred while deleting the product.");
     }
   };
 
   return (
-    <div className="p-6">
-      <div className="mt-15">
-       
-      </div>
-      <div className="flex justify-end mt-4 mb-4">
-        <Link to="/AddProduct">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all">
-            Add Product
-          </button>
+    <div className="p-6 bg-white rounded-lg shadow-lg">
+      <header className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold text-gray-800">Products</h2>
+        <Link
+          to="/AddProduct"
+          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow transition"
+        >
+          <FaPlus className="mr-2" />
+          Add Product
         </Link>
-      </div>
+      </header>
 
       {loading ? (
-        <p className="text-gray-600 text-center">Loading products...</p>
+        <p className="text-center text-gray-500">Loading products...</p>
       ) : posts && posts.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse border border-gray-300 shadow-lg">
-            <thead className="bg-blue-500 text-white">
+        <div className="overflow-x-auto rounded-md border border-gray-200 shadow-sm">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-blue-600">
               <tr>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  Number
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  Price
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  Name
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  Category
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  id
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  image
-                </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
-                  action
-                </th>
+                {[
+                  "No",
+                  "Price",
+                  "Name",
+                  "Category",
+                  "ID",
+                  "Image",
+                  "Actions",
+                ].map((heading) => (
+                  <th
+                    key={heading}
+                    className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                  >
+                    {heading}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody>
+
+            <tbody className="bg-white divide-y divide-gray-200">
               {posts.map((item, index) => (
                 <tr
-                  key={index}
-                  className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
+                  key={item.id}
+                  className="hover:bg-gray-50 transition-colors duration-150"
                 >
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                     {index + 1}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {item.new_price}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                    ₹{item.newPrice}
                   </td>
-
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                     {item.name}
                   </td>
-
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 capitalize">
                     {item.category}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                     {item.id}
                   </td>
-
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <img
                       src={item.image}
                       alt={item.description}
-                      className="w-12 h-12 object-cover rounded-md shadow-sm"
+                      className="w-14 h-14 object-cover rounded-md shadow-sm"
                     />
                   </td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">
-                    <div className="flex items-center justify-center space-x-4">
-                      <span
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <div className="flex items-center space-x-4 justify-center">
+                      <button
                         onClick={() => deleteData(item.id)}
-                        className="text-red-500 cursor-pointer hover:text-red-700"
+                        className="text-red-600 hover:text-red-800 transition"
+                        aria-label="Delete product"
                       >
-                        <MdDelete size={20} />
-                      </span>
+                        <MdDelete size={22} />
+                      </button>
                       <Link
-                        to={`/EditProducts/${item.id}`}
-                        className="text-blue-500 hover:text-blue-700"
+                        to={`/Admin/EditProducts/${item.id}`}
+                        className="text-blue-600 hover:text-blue-800 transition"
+                        aria-label="Edit product"
                       >
                         <FaEdit size={20} />
                       </Link>
@@ -117,7 +109,7 @@ function AdminProducts() {
           </table>
         </div>
       ) : (
-        <p className="text-gray-600 text-center">No products available</p>
+        <p className="text-center text-gray-500">No products available</p>
       )}
     </div>
   );

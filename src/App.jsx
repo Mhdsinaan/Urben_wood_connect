@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import Home from "./pages/Home";
@@ -12,6 +12,8 @@ import Decor from "./pages/Decor";
 import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
+import AdminLayout from "./Admin/AdminLayout";    // Import AdminLayout here
 import Admin from "./Admin/pages/Admin";
 import Users from "./Admin/pages/Users";
 import AdminProducts from "./Admin/pages/AdminProducts";
@@ -19,30 +21,40 @@ import AddProduct from "./Admin/pages/AddProduct";
 import EditProducts from "./Admin/pages/EditProducts";
 import Order from "./Admin/pages/Order";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <Home /> },
+      { path: "/Home", element: <Home /> },
       { path: "/Bedroom", element: <Bedroom /> },
       { path: "/Dining", element: <Dining /> },
       { path: "/Livingroom", element: <Livingroom /> },
       { path: "/Decor", element: <Decor /> },
       { path: "/Cart", element: <Cart /> },
+      { path: "/Wishlist", element: <Wishlist /> },
       { path: "/Products", element: <Products /> },
       { path: "/:category/ProductDetails/:id", element: <ProductDetails /> },
     ],
   },
   { path: "/Login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "/Admin", element: <Admin /> },
-  { path: "/Users", element: <Users /> },
-  { path: "/AdminProducts", element: <AdminProducts /> },
-  { path: "/AddProduct", element: <AddProduct /> },
-  { path: "/EditProducts/:id", element: <EditProducts /> },
-  { path: "/Order", element: <Order /> },
+
+  
+  {
+    path: "/",
+    element: <AdminLayout />,
+    children: [
+      { index: "Admin", element: <Admin /> },                // /Admin
+      { path: "Users", element: <Users /> },              // /Admin/Users
+      { path: "AdminProducts", element: <AdminProducts /> }, // /Admin/AdminProducts
+      { path: "AddProduct", element: <AddProduct /> },    // /Admin/AddProduct
+      { path: "EditProducts/:id", element: <EditProducts /> }, // /Admin/EditProducts/:id
+      { path: "Order", element: <Order /> },               // /Admin/Order
+    ],
+  },
 ]);
 
 function App() {

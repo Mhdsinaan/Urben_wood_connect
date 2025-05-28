@@ -4,11 +4,12 @@ const api = axios.create({
   baseURL: "https://localhost:7296",
   withCredentials: true,
 });
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem("token");  // or from context/state
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+
 });
 export default api;

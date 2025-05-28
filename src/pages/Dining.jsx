@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaHeart } from "react-icons/fa"; // Import heart icon
 import { useCart } from "../context/cartContext";
+import { useWishlist } from "../context/WishlistContext";  // Import wishlist context
 
 function Dining() {
   const { posts } = useContext(DataContext);
   const { addToCart } = useCart();
-  // const { addToCart } = useContext(CartContext); 
-
+  const { addToWishlist } = useWishlist(); // Use wishlist function
 
   const diningData = posts?.filter((item) => item.category === "dining");
 
@@ -32,24 +32,28 @@ function Dining() {
                 />
               </Link>
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.name}
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
                 <div className="flex items-center space-x-2">
-                  <p className="text-lg text-red-500 line-through">
-                  ₹{item.old_price}
-                  </p>
-                  <span className="text-lg font-semibold text-gray-900">
-                  ₹{item.new_price}
-                  </span>
+                  <p className="text-lg text-red-500 line-through">₹{item.old_price}</p>
+                  <span className="text-lg font-semibold text-gray-900">₹{item.new_price}</span>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex justify-between gap-2">
+                  {/* Add to Cart */}
                   <button
                     className="flex items-center justify-center p-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-all duration-200 focus:outline-none shadow-md hover:shadow-lg"
                     onClick={() => addToCart(item)}
                   >
                     <FaShoppingCart size={18} className="mr-1" />
                     <span className="text-sm">Add to Cart</span>
+                  </button>
+
+                  {/* Add to Wishlist */}
+                  <button
+                    className="flex items-center justify-center p-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-all duration-200 focus:outline-none shadow-md hover:shadow-lg"
+                    onClick={() => addToWishlist(item)}
+                  >
+                    <FaHeart size={18} className="mr-1" />
+                    <span className="text-sm">Wishlist</span>
                   </button>
                 </div>
               </div>
