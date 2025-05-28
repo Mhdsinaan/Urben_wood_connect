@@ -7,11 +7,11 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  
+
   // const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
-  if(user==null){
+  if (user == null) {
     // toast.error("user not Loggin");
   }
 
@@ -23,11 +23,9 @@ export function CartProvider({ children }) {
 
   const getCartItems = async () => {
     try {
-      const response = await api.get("/api/Cart");
-      console.log("data",response)
-      setCart(response.data)
-      
-      
+      const response = await api.get("/api/Cart/getAll");
+      console.log("data", response);
+      setCart(response.data);
     } catch (error) {
       console.error("Failed to load cart items", error);
       setCart([]);
@@ -35,41 +33,34 @@ export function CartProvider({ children }) {
   };
 
   const addToCart = async (item) => {
-  if (!user) {
-    toast.error("Please login to add items to cart");
-    return;
-  }
-    console.log("Sending to API:", item);
-  try {
-    const response = await api.post("/api/Cart/add", {
-  ProductId: item.productID,     
-  Quantity: item.quantity 
-});
-
-
-  
-    
-
-    if (response.status === "200") {
-      setCart(response.data);
-     
-      toast.success(`${item.name} added to cart`);
-      getCartItems(); // Refresh cart
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
     }
-  } catch (error) {
-    toast.error("Failed to add item to cart");
-    console.error(error);
-  }
-};
+    console.log("Sending to API:", item);
+    try {
+      const response = await api.post("api/Cart/add", {
+        productId: item.ProductId, 
+        quantity: item.quantity,
+      });
+      console.log("cart", response);
 
+      if (response.status === 200) {
+        toast.success(`${item.name} added to cart`);
+        getCartItems();
+      }
+    } catch (error) {
+      toast.error("Failed to add item to cart");
+      console.error(error);
+    }
+  };
 
   const removeFromCart = async (productId) => {
-     console.log("Sending to API:", productId);
-    
+    console.log("Sending to API:", productId);
+
     try {
       const response = await api.delete(`/api/Cart/${productId}`);
       if (response.status === 200) {
-       
         toast.success("Item removed from cart");
         getCartItems();
       }
@@ -79,11 +70,11 @@ export function CartProvider({ children }) {
     }
   };
 
-  const updateCartQuantity = async (productID,quantity) => {
+  const updateCartQuantity = async (productID, quantity) => {
     try {
-        const updatedQuantity = quantity + 1;
+      const updatedQuantity = quantity + 1;
       const response = await api.post(`/api/Cart/increment/${productID}`, {
-        quantity:updatedQuantity,
+        quantity: updatedQuantity,
       });
       if (response.status === 200) {
         getCartItems();
@@ -93,11 +84,11 @@ export function CartProvider({ children }) {
       console.error(error);
     }
   };
-   const decreaseCartQuantity = async (productID,quantity) => {
+  const decreaseCartQuantity = async (productID, quantity) => {
     try {
-        const decreas = quantity - 1;
+      const decreas = quantity - 1;
       const response = await api.post(`/api/Cart/decrease/${productID}`, {
-        quantity:decreas,
+        quantity: decreas,
       });
       if (response.status === 200) {
         getCartItems();
@@ -129,7 +120,7 @@ export function CartProvider({ children }) {
         decreaseCartQuantity,
         clear,
         getCartTotalPrice,
-       
+
         cartCount: cart.length,
       }}
     >
@@ -141,5 +132,4 @@ export function CartProvider({ children }) {
 export function useCart() {
   return useContext(CartContext);
 }
- // navigator("/login");
-      
+// navigator("/login");
