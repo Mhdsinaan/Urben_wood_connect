@@ -13,7 +13,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-import AdminLayout from "./Admin/AdminLayout";    // Import AdminLayout here
+import AdminLayout from "./Admin/AdminLayout";   
 import Admin from "./Admin/pages/Admin";
 import Users from "./Admin/pages/Users";
 import AdminProducts from "./Admin/pages/AdminProducts";
@@ -47,12 +47,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <AdminLayout />,
     children: [
-      { index: "Admin", element: <Admin /> },                // /Admin
-      { path: "Users", element: <Users /> },              // /Admin/Users
-      { path: "AdminProducts", element: <AdminProducts /> }, // /Admin/AdminProducts
-      { path: "AddProduct", element: <AddProduct /> },    // /Admin/AddProduct
-      { path: "EditProducts/:id", element: <EditProducts /> }, // /Admin/EditProducts/:id
-      { path: "Order", element: <Order /> },               // /Admin/Order
+      { index: "Admin", element: <Admin /> },               
+      { path: "Users", element: <Users /> },              
+      { path: "AdminProducts", element: <AdminProducts /> },
+      { path: "AddProduct", element: <AddProduct /> },    
+      { path: "EditProducts/:id", element: <EditProducts /> }, 
+      { path: "Order", element: <Order /> },              
     ],
   },
 ]);

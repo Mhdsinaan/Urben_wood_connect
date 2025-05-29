@@ -33,30 +33,35 @@ export function CartProvider({ children }) {
   };
 
   const addToCart = async (item) => {
-    if (!user) {
-      toast.error("Please login to add items to cart");
-      return;
-    }
-    console.log("Sending to API:", item);
-    try {
-      const response = await api.post("api/Cart/add", {
-        productId: item.ProductId, 
-        quantity: item.quantity,
-      });
-      console.log("cart", response);
+    console.log(item);
+     console.log("id",item.id);
+    console.log("qua",item.quantity)
+    
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    toast.error("Please login to add items to cart");
+    return;
+  }
 
-      if (response.status === 200) {
-        toast.success(`${item.name} added to cart`);
-        getCartItems();
-      }
-    } catch (error) {
-      toast.error("Failed to add item to cart");
-      console.error(error);
+  try {
+    const response = await api.post("api/Cart/add", {
+      productId: item.id, 
+      quantity: item.quantity,
+    });
+   
+
+    if (response.status === 200) {
+      toast.success(`${item.name} added to cart`);
+      await getCartItems(); 
     }
-  };
+  } catch (error) {
+    toast.error("Failed to add item to cart");
+    console.error(error);
+  }
+};
 
   const removeFromCart = async (productId) => {
-    console.log("Sending to API:", productId);
+  
 
     try {
       const response = await api.delete(`/api/Cart/${productId}`);
@@ -66,7 +71,7 @@ export function CartProvider({ children }) {
       }
     } catch (error) {
       toast.error("Failed to remove item");
-      console.error(error);
+      console.error(error.response.data);
     }
   };
 

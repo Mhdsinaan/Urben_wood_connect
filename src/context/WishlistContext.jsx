@@ -22,7 +22,7 @@ export function WishlistProvider({ children }) {
     fetchWishlist();
   }, []);
 
-  // ✅ Add item to wishlist
+  
   const addToWishlist = async (item) => {
     const exists = wishlist.find((w) => w.id === item.id);
     if (!exists) {
