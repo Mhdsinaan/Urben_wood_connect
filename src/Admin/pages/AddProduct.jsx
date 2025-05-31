@@ -41,8 +41,8 @@ function AddProduct() {
           NewPrice: Number(product.NewPrice),
           oldPrice: Number(product.oldPrice),
           description: product.Description,
-          rating: parseInt(product.rating),
-          reviews: parseInt(product.reviews),
+          // rating: parseInt(product.rating),
+          // reviews: parseInt(product.reviews),
         },
         {
           headers: {
@@ -145,7 +145,7 @@ function AddProduct() {
           />
         </div>
        
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium mb-1">Rating:</label>
           <input
             type="number"
@@ -156,9 +156,9 @@ function AddProduct() {
             min="0"
             max="5"
           />
-        </div>
+        </div> */}
        
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium mb-1">Reviews:</label>
           <input
             type="number"
@@ -168,7 +168,7 @@ function AddProduct() {
             className="w-full border px-3 py-2 rounded"
             min="0"
           />
-        </div>
+        </div> */}
         {/* Submit button */}
         <button
           type="submit"

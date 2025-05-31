@@ -3,17 +3,26 @@ import { DataContext } from "../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
-import { useWishlist } from "../context/WishlistContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Livingroom() {
   const { posts } = useContext(DataContext);
-  const { addToCart } = useCart();
-  const { addToWishlist, wishlist } = useWishlist();
+  // const { addToCart } = useCart();
 
   const livingData = posts?.filter((item) => item.category === "living");
 
-  const isInWishlist = (id) =>
-    Array.isArray(wishlist) && wishlist.some((item) => item.id === id);
+  // const handleAddToCart = (item) => {
+  //   addToCart({
+  //     id: item.id,
+  //     name: item.name,
+  //     price: item.newPrice,
+  //     quantity: 1,
+  //     image: item.image,
+  //   });
+
+  //   toast.success(`${item.name} added to cart!`);
+  // };
 
   return (
     <div>
@@ -31,42 +40,40 @@ function Livingroom() {
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 md:h-60 object-cover"
                 />
               </Link>
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                <div className="flex items-center space-x-2">
-                  <p className="text-lg text-red-500 line-through">₹{item.oldPrice}</p>
-                  <span className="text-lg font-semibold text-gray-900">₹{item.newPrice}</span>
-                </div>
-                <div className="mt-4 flex space-x-4">
-                  {/* Add to Cart - red icon only */}
+                <div className="mt-2">
+  <div className="flex items-center space-x-2">
+    <span className="text-sm text-gray-500">Old Price:</span>
+    <p className="text-sm text-red-500 line-through">
+      ₹{item.oldPrice.toLocaleString()}
+    </p>
+  </div>
+
+  <div className="flex items-center space-x-2">
+    <span className="text-sm text-green-600 font-bold">New Price:</span>
+    <p className="text-md text-green-600 ">
+      ₹{item.newPrice.toLocaleString()}
+    </p>
+  </div>
+</div>
+
+                {/* <div className="mt-4 flex space-x-4">
                   <FaShoppingCart
                     size={18}
                     className="text-black-300 cursor-pointer"
-                    onClick={() =>
-                      addToCart({
-                        id: item.id,
-                        name: item.name,
-                        price: item.newPrice,
-                        quantity: 1,
-                        image: item.image,
-                      })
-                    }
+                    onClick={() => handleAddToCart(item)}
                     title="Add to Cart"
                   />
-
-                  {/* Wishlist - red icon only */}
                   <FaHeart
                     size={18}
-                    className={`cursor-pointer ${
-                      isInWishlist(item.id) ? "text-gray-400" : "text-black-500"
-                    }`}
-                    onClick={() => !isInWishlist(item.id) && addToWishlist(item)}
-                    title={isInWishlist(item.id) ? "Already in Wishlist" : "Add to Wishlist"}
+                    className="text-red-400 cursor-pointer"
+                    title="Add to Wishlist"
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           ))}

@@ -3,12 +3,12 @@ import { DataContext } from "../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import { useCart } from "../context/cartContext";
-import { useWishlist } from "../context/WishlistContext"; // ✅ Import wishlist
+// import { useWishlist } from "../context/WishlistContext"; //
 
 function Decor() {
   const { posts } = useContext(DataContext);
   const { addToCart } = useCart();
-  const { addToWishlist } = useWishlist(); // ✅ Use wishlist
+  // const { addToWishlist } = useWishlist(); // 
 
   const decorData = posts?.filter((item) => item.category === "decor");
 
@@ -55,14 +55,14 @@ function Decor() {
                     Add to Cart
                   </button>
 
-                  {/* Add to Wishlist */}
+                  {/* Add to Wishlist
                   <button
                     className="flex items-center justify-center px-3 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 text-sm shadow"
                     onClick={() => addToWishlist(item)}
                   >
                     <FaHeart className="mr-1" />
                     Wishlist
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

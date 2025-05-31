@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaEdit, FaPlus } from "react-icons/fa";
+import api from "../../../api/api";
 
 function AdminProducts() {
   const { posts, loading } = useContext(DataContext);
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/products/${id}`);
+      await api.delete(`/api/Product/Delete/${id}`);
       alert("Product deleted successfully");
       window.location.reload();
     } catch (error) {
@@ -95,7 +95,7 @@ function AdminProducts() {
                         <MdDelete size={22} />
                       </button>
                       <Link
-                        to={`/Admin/EditProducts/${item.id}`}
+                        to={`/EditProducts/${item.id}`}
                         className="text-blue-600 hover:text-blue-800 transition"
                         aria-label="Edit product"
                       >

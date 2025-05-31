@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { FaShoppingCart, FaUserPlus, FaBars, FaTimes, FaHeart } from "react-icons/fa"; // ✅ Added FaHeart
+import { FaShoppingCart, FaUserPlus, FaBars, FaTimes, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext"; // ✅ Import useWishlist
 
 function Navbar() {
   const { cart } = useCart();
+  const { wishlist } = useWishlist(); // ✅ Use wishlist context
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -30,13 +32,6 @@ function Navbar() {
             menuOpen ? "block" : "hidden"
           } absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent md:flex gap-4 py-4 px-5 md:py-0 md:px-0 z-40 shadow md:shadow-none`}
         >
-          <Link
-            to="/"
-            onClick={closeMenu}
-            className="block text-red-600 font-semibold hover:text-red-800 transition"
-          >
-            HOME
-          </Link>
           <Link
             to="/Bedroom"
             onClick={closeMenu}
@@ -73,11 +68,17 @@ function Navbar() {
             <FaUserPlus size={26} />
           </Link>
 
-          {/* ✅ Wishlist Icon */}
-          <Link to="/Wishlist" className="text-black hover:text-gray-600">
+          {/* ✅ Wishlist Icon with count */}
+          <Link to="/WishlistPage" className="relative text-black hover:text-gray-600">
             <FaHeart size={26} />
+            {wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full px-2 py-1">
+                {wishlist.length}
+              </span>
+            )}
           </Link>
 
+          {/* Cart Icon with count */}
           <Link to="/Cart" className="relative text-black hover:text-gray-600">
             <FaShoppingCart size={26} />
             {cart.length > 0 && (

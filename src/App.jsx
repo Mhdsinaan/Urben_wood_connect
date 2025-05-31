@@ -1,6 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Dashboard from "./Admin/pages/Dashboard";
+import UserDetails from "./Admin/pages/UserDetails";
+
 
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
@@ -21,7 +24,7 @@ import AddProduct from "./Admin/pages/AddProduct";
 import EditProducts from "./Admin/pages/EditProducts";
 import Order from "./Admin/pages/Order";
 import Cart from "./pages/Cart";
-import Wishlist from "./pages/Wishlist";
+import WishlistPage from "./pages/WishlistPage";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +37,7 @@ const router = createBrowserRouter([
       { path: "/Livingroom", element: <Livingroom /> },
       { path: "/Decor", element: <Decor /> },
       { path: "/Cart", element: <Cart /> },
-      { path: "/Wishlist", element: <Wishlist /> },
+      { path: "/WishlistPage", element: <WishlistPage /> },
       { path: "/Products", element: <Products /> },
       { path: "/:category/ProductDetails/:id", element: <ProductDetails /> },
     ],
@@ -48,11 +51,13 @@ const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { index: "Admin", element: <Admin /> },               
-      { path: "Users", element: <Users /> },              
+      { path: "Users", element: <Users /> },
+      { path: "Users/:id", element: <UserDetails /> },              
       { path: "AdminProducts", element: <AdminProducts /> },
       { path: "AddProduct", element: <AddProduct /> },    
       { path: "EditProducts/:id", element: <EditProducts /> }, 
-      { path: "Order", element: <Order /> },              
+      { path: "Order", element: <Order /> },
+      {path:"Dashboard",element:<Dashboard/>}              
     ],
   },
 ]);

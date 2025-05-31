@@ -3,12 +3,12 @@ import { DataContext } from "../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa"; // Import heart icon
 import { useCart } from "../context/cartContext";
-import { useWishlist } from "../context/WishlistContext";  // Import wishlist context
+// import { useWishlist } from "../context/WishlistContext";  // Import wishlist context
 
 function Dining() {
   const { posts } = useContext(DataContext);
   const { addToCart } = useCart();
-  const { addToWishlist } = useWishlist(); // Use wishlist function
+  // const { addToWishlist } = useWishlist(); // Use wishlist function
 
   const diningData = posts?.filter((item) => item.category === "dining");
 
@@ -48,13 +48,13 @@ function Dining() {
                   </button>
 
                   {/* Add to Wishlist */}
-                  <button
+                  {/* <button
                     className="flex items-center justify-center p-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-all duration-200 focus:outline-none shadow-md hover:shadow-lg"
                     onClick={() => addToWishlist(item)}
                   >
                     <FaHeart size={18} className="mr-1" />
                     <span className="text-sm">Wishlist</span>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

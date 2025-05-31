@@ -3,12 +3,12 @@ import { DataContext } from "../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
-import { useWishlist } from "../context/WishlistContext"; // ✅ Import wishlist
+// import { useWishlist } from "../context/WishlistContext"; // ✅ Import wishlist
 
 function Bedroom() {
   const { posts } = useContext(DataContext);
   const { addToCart } = useCart();
-  const { addToWishlist } = useWishlist(); // ✅ Use wishlist
+  // const { addToWishlist } = useWishlist(); // ✅ Use wishlist
 
   const bedroomData = posts?.filter((item) => item.category === "bedroom");
 

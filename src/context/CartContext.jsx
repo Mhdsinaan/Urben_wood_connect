@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../api/api";
 
@@ -8,11 +8,11 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  // const navigate = useNavigate();
+  
 
   const user = JSON.parse(localStorage.getItem("user"));
   if (user == null) {
-    // toast.error("user not Loggin");
+    
   }
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export function CartProvider({ children }) {
 
   const addToCart = async (item) => {
     console.log(item);
-     console.log("id",item.id);
-    console.log("qua",item.quantity)
+    //  console.log("id",item.id);
+    // console.log("qua",item.quantity)
     
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
